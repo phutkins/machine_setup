@@ -1,0 +1,34 @@
+" Directions: 
+" - Copy this file over as your .vimrc
+" - edit ThisOsType to return the type of OS you'd like
+" ... then the global vimrc will be sourced from Dropbox.
+"
+" ------ EDIT THIS FUNCTION WHEN INSTALLING ------
+" You can refer to ThisOsType() in .vimrc, too!
+function! ThisOsType()
+    return 'windows'
+"    return 'linux'
+"    return 'macos'
+endfun
+" future enhancement: could test via 
+"   let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
+
+" ------ NO NEED TO EDIT BELOW THIS LINE ------- 
+" Got the idea of sharing one .vimrc for all platforms from:
+"  https://stackoverflow.com/questions/1031396/how-to-share-one-vimrc-file-among-multiple-clients
+
+set secure
+
+" Source the global vim settings from Dropbox. 
+set runtimepath^=~/Dropbox/vim/vimfiles
+source ~/Dropbox/vim/vimrc.vim
+
+" ( or if the above doesn't work, make a symlink:  ln -s ~Dropbox/vim/vimrc $HOME/.vimrc )
+" OTHER VARIANTS
+"if ThisOsType() == "windows"
+"  set runtimepath^=$HOME/My\ Documents/My\ Dropbox/vim
+"  source $HOME\My Documents\My Dropbox\vim\vimrc.vim
+"else " For 'macos' & 'linux'
+"  set runtimepath^=~/Dropbox/vim
+"  source ~/Dropbox/vim/vimrc.vim
+"endif

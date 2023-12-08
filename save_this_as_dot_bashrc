@@ -1,0 +1,6 @@
+
+PATH="~/bin:$PATH"
+
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/machine_setup/append_this_to_dot_bashrc ] && source ~/machine_setup/append_this_to_dot_bashrc
+

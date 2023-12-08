@@ -1,0 +1,120 @@
+# ----- BELOW MODIFIED BY PHUTKINS ----------------------------------
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+#if ! shopt -oq posix; then
+#  if [ -f /usr/share/bash-completion/bash_completion ]; then
+#    . /usr/share/bash-completion/bash_completion
+#  elif [ -f /etc/bash_completion ]; then
+#    . /etc/bash_completion
+#  fi
+#fi
+
+# Although called "bashrc", this is intended to be somewhat shell-agnostic, to
+# support both bash and zsh. 
+# (csh, tcsh, and fish are just too different in syntax)
+if [ -n "$BASH_VERSION" ]; then
+    current_shell="bash"
+elif [ -n "$ZSH_VERSION" ]; then
+    current_shell="zsh"
+else
+    echo "Unsupported shell. Only bash and zsh supported at this time."
+    echo "\$SHELL is $SHELL"
+    echo "currently running script $0"
+    return 1
+fi
+
+# For OS-specific options, see directions at https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
+if [[ "$current_shell" == "bash"* ]]; then
+  # append to the history file
+  shopt -s histappend
+  # after history substitution, put the command on the line as if you typed it
+  shopt -s histverify
+fi
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # "-1" doesn't work for MacOS
+  HISTSIZE=5000
+else
+  HISTSIZE=-1
+fi 
+HISTFILESIZE=100000
+HISTTIMEFORMAT="%a %F %T "
+# erase duplicate lines or lines starting with space from the history.
+# forget commands that begin with a space, or duplicated. https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+HISTCONTROL=ignoreboth:erasedups
+# Immediately save/clear/reread history after every command to share history among multiple terminals. WARNING: takes extra computing power
+#PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# Alternative that takes less power, but does not share history among terminals
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# defaults for when I use https://github.com/junegunn/fzf
+export FZF_DEFAULT_OPTS='--reverse --border'
+export FZF_CTRL_T_OPTS="--preview 'head -100 {}'"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Source the appropriate file for the current shell
+case "$current_shell" in
+  bash)
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+    ;;
+  zsh)
+    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    ;;
+esac
+
+# prompt. from https://stackoverflow.com/questions/4133904/ps1-line-with-git-current-branch-and-colors
+#PS1="\[$(tput bold)\]\h\[$(tput setaf 4)\]:\w $ \[$(tput sgr0)\]"
+function color_my_prompt {
+    local __user_and_host="\[$(tput bold)\]\h"
+    local __cur_location="\[$(tput setaf 4)\]:\w"
+    local __git_branch_color="\[$(tput setaf 3)\]"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __prompt_tail="\[$(tput sgr0)\]$"
+    local __last_color="\[$(tput sgr0)\]"
+    export PS1="$__user_and_host$__cur_location$__git_branch_color$__git_branch$__prompt_tail$__last_color "
+}
+case "$current_shell" in
+  bash)
+    color_my_prompt
+    ;;
+esac
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # MacOS uses "-G" for "--color"
+  alias l='ls -AFCG'
+  alias ll='ls -laFG'
+else
+  alias l='ls -AFC --color'
+  alias ll='ls -laF --color'
+fi
+
+#alias timestamp='xargs -d\\n -L1 sh -c '\''date "+%F %T.%3N $0"'\'''
+alias timestamp='xargs -d\\n -L1 sh -c  '\''echo $(date "+%F %T.%3N") $0'\'''
+alias ddate='date --rfc-3339=date'
+alias tdate='date --rfc-3339=seconds'
+alias ttdate='date +%Y%m%d_%H%M%S'
+
+#  From https://github.com/magicmonty/bash-git-prompt
+# installation:  cd ~ ; git clone https://github.com/magicmonty/bash-git-prompt.git .bash-git-prompt --depth=1
+GIT_PROMPT_ONLY_IN_REPO=1
+[ -f ~/.bash-git-prompt/gitprompt.sh ] && source ~/.bash-git-prompt/gitprompt.sh
+
+# git aliases
+# gitl  : make a pretty log graph of all branches
+# gitl2 : make a pretty log graph of HEAD. or, of whatever branch you pass in.
+# Note that additional command line parameters can be passed in to "git log" using these aliases, e.g. "gitl --date=iso"
+alias gitl2='git log --graph --abbrev-commit --decorate --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'\'' --date=relative'
+alias gitl='gitl2 --all'
+#alias gitl3='git log --graph --abbrev-commit --decorate --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'\'''\'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'\'' --all'
+#alias gitl='git log --graph --abbrev-commit --decorate --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'\'' --all'
+#alias gitl2='git log --graph --abbrev-commit --decorate --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'\'''
+
+# To support better fonts in wine
+export FREETYPE_PROPERTIES="truetype:interpreter-version=35"
+
+# to support https://github.com/nvbn/thefuck
+# installation: sudo apt install python3-dev python3-pip ; pip3 install thefuck
+eval "$(thefuck --alias)" || echo "thefuck not installed"
