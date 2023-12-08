@@ -1,7 +1,7 @@
 " Directions: 
 " - Copy this file over as your .vimrc
 " - edit ThisOsType to return the type of OS you'd like
-" ... then the global vimrc will be sourced from Dropbox.
+" ... then the global vimrc will be sourced from machine_setup.
 "
 " ------ EDIT THIS FUNCTION WHEN INSTALLING ------
 " You can refer to ThisOsType() in .vimrc, too!
@@ -19,9 +19,9 @@ endfun
 
 set secure
 
-" Source the global vim settings from Dropbox. 
-set runtimepath^=~/Dropbox/vim/vimfiles
-source ~/Dropbox/vim/vimrc.vim
+" Source the global vim settings from machine_setup. 
+set runtimepath^=~/machine_setup
+source ~/machine_setup/vimrc.vim
 
 " ( or if the above doesn't work, make a symlink:  ln -s ~Dropbox/vim/vimrc $HOME/.vimrc )
 " OTHER VARIANTS
