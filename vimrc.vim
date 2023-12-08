@@ -81,7 +81,7 @@ nmap <leader>n  :noh<CR>
 "cmap W w
 
 " Use persistent history. From https://advancedweb.hu/2017/09/19/vim-persistent-undo/
-if has("persistent_undo") && ThisOsType() != "windows"
+if has("persistent_undo") && has('win32') != "windows"
     if !isdirectory("/tmp/.vim-undo-dir")
         call mkdir("/tmp/.vim-undo-dir", "", 0700)
     endif
@@ -160,7 +160,7 @@ set wildmenu    " shows wildcard completions in menu bar
 set switchbuf=useopen " when jumping to a file, go to already open version
 set shellpipe=2>&1\|\ tee   " pipes both STDOUT and STDERR for :make
 
-if ThisOsType() == "linux"
+if has('unix')
 set clipboard=unnamedplus,autoselectplus  " uses register(+) for all cuts/pastes
 else " For 'macos' & 'windows'
 set clipboard=unnamed,autoselect    " uses OS register (*) for all cuts/pastes
@@ -174,7 +174,7 @@ set nofoldenable        " start with folds all open
 " remember to ctags (or etags, or use tags script) every once in a while!
 "  get rid of annoying double-listing in Windows.  only lowercase.
 set tags=./tags,tags
-if ThisOsType() == 'windows'
+if has('win32')
   set tags+=c:\temp\tags
 endif
 "set tags=./tags,tags,c:\temp\tags
@@ -197,9 +197,9 @@ endif
 "set guifont=Terminal:h9:w6 
 "set guifont=Andale_Mono:h7
 "set guifont=Crystal:h8
-if ThisOsType() == 'macos'
+if has('macunix')
   set guifont=Lucida_Console:h12
-elseif ThisOsType() == 'windows'
+elseif if has('win32')
   set guifont=Lucida_Console:h12
 else    " linux
   "set guifont=Monospace\ 9
