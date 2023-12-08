@@ -199,7 +199,7 @@ endif
 "set guifont=Crystal:h8
 if has('macunix')
   set guifont=Lucida_Console:h12
-elseif if has('win32')
+elseif has('win32')
   set guifont=Lucida_Console:h12
 else    " linux
   "set guifont=Monospace\ 9
