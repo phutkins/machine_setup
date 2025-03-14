@@ -1,6 +1,14 @@
 
-PATH="~/bin:$PATH"
+export PATH=$PATH:/opt/modality/bin
+
+# For cueimports, needed by VS Code "cue" plugin
+export PATH=/home/peterhutkins/.bin:$PATH
+export PATH=/home/peterhutkins/glyd/scripts/bin:$PATH
+
+#source ~/.ghcopilot.alias.rc
 
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/machine_setup/append_this_to_dot_bashrc ] && source ~/machine_setup/append_this_to_dot_bashrc
 
+# Adds Rust binaries to PATH
+. "$HOME/.cargo/env"

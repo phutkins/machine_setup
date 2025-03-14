@@ -40,15 +40,24 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
   HISTSIZE=-1
 fi 
-HISTFILESIZE=100000
+HISTFILESIZE=1000000
 HISTTIMEFORMAT="%a %F %T "
 # erase duplicate lines or lines starting with space from the history.
 # forget commands that begin with a space, or duplicated. https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
 HISTCONTROL=ignoreboth:erasedups
 # Immediately save/clear/reread history after every command to share history among multiple terminals. WARNING: takes extra computing power
 #PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-# Alternative that takes less power, but does not share history among terminals
+# Alternative1: takes less power, but does not share history among terminals
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# Alternative2: function that synchronized history every 60 seconds or so:
+# # Function to periodically save and reload history
+save_and_reload_history() {
+    history -a   # Append the new commands to the history file
+    history -c   # Clear the history in memory
+    history -r   # Read the entire history file again
+}
+alias savehist='history -a'  # append history lines from this session to the history file
+alias loadhist='history -n'  # read all history lines not already read from the history file and append them to the history list
 
 # defaults for when I use https://github.com/junegunn/fzf
 export FZF_DEFAULT_OPTS='--reverse --border'
@@ -67,15 +76,26 @@ esac
 
 # prompt. from https://stackoverflow.com/questions/4133904/ps1-line-with-git-current-branch-and-colors
 #PS1="\[$(tput bold)\]\h\[$(tput setaf 4)\]:\w $ \[$(tput sgr0)\]"
+#function color_my_prompt {
+#    local __user_and_host="\[$(tput bold)\]\h"
+#    local __cur_location="\[$(tput setaf 4)\]:\w"
+#    local __git_branch_color="\[$(tput setaf 3)\]"
+#    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+#    local __prompt_tail="\[$(tput sgr0)\]$"
+#    local __last_color="\[$(tput sgr0)\]"
+#    export PS1="$__user_and_host$__cur_location$__git_branch_color$__git_branch$__prompt_tail$__last_color "
+#}
 function color_my_prompt {
-    local __user_and_host="\[$(tput bold)\]\h"
-    local __cur_location="\[$(tput setaf 4)\]:\w"
-    local __git_branch_color="\[$(tput setaf 3)\]"
+    local __user_and_host="\[\033[01;32m\]\u@\h"
+    local __cur_location="\[\033[01;34m\]\w"
+    local __git_branch_color="\[\033[31m\]"
+    #local __git_branch="\`ruby -e \"print (%x{git branch 2> /dev/null}.grep(/^\*/).first || '').gsub(/^\* (.+)$/, '(\1) ')\"\`"
     local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
-    local __prompt_tail="\[$(tput sgr0)\]$"
-    local __last_color="\[$(tput sgr0)\]"
-    export PS1="$__user_and_host$__cur_location$__git_branch_color$__git_branch$__prompt_tail$__last_color "
+    local __prompt_tail="\[\033[35m\]$"
+    local __last_color="\[\033[00m\]"
+    export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
 }
+
 case "$current_shell" in
   bash)
     color_my_prompt
@@ -96,6 +116,8 @@ alias timestamp='xargs -d\\n -L1 sh -c  '\''echo $(date "+%F %T.%3N") $0'\'''
 alias ddate='date --rfc-3339=date'
 alias tdate='date --rfc-3339=seconds'
 alias ttdate='date +%Y%m%d_%H%M%S'
+
+alias ghcg='gh copilot suggest --target git'
 
 #  From https://github.com/magicmonty/bash-git-prompt
 # installation:  cd ~ ; git clone https://github.com/magicmonty/bash-git-prompt.git .bash-git-prompt --depth=1
