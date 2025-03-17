@@ -11,113 +11,51 @@
         "**/.trunk/*logs/": true,
         "**/.trunk/*notifications/": true,
         "**/.trunk/*out/": true,
-        "**/.trunk/*plugins/": true,
-        "**/.venv/**": true
+        "**/.trunk/*plugins/": true
     },
-    "hexeditor.columnWidth": 16,
-    "hexeditor.showDecodedText": true,
-    "hexeditor.defaultEndianness": "little",
-    "hexeditor.inspectorType": "aside",
-    "trunk.showPreexistingIssues": true,
-    "clangd.arguments": [
-        "--header-insertion=never",
-        "--compile-commands-dir=${workspaceFolder}/",
-        "--query-driver=**"
-    ],
+    "editor.defaultFormatter": "trunk.io",
+    /***********************************************************************
+     * UI theme                                                            *
+     ***********************************************************************/
+    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
+    "workbench.colorCustomizations": {
+        "tab.activeBackground": "#ff0000"
+    },
+    /***********************************************************************
+     * bazel                                                               *
+     ***********************************************************************/
     "bazel.executable": "/home/peterhutkins/glyd/scripts/bin/bazel",
     "bazel.commandLine.commandArgs": [
         "--compilation_mode=dbg",
         "--subcommands",
         "--verbose_failures"
     ],
-    "editor.defaultFormatter": "trunk.io",
-    "github.copilot.advanced": {
-    },
-    "[ada]": {
-
-        "editor.defaultFormatter": "AdaCore.ada",
-        "editor.formatOnType": false,
-        "editor.formatOnSaveMode": "file",
-        "editor.wrappingIndent": "indent"
-    },
-    "ada.renameInComments": true,
-    "ada.useCompletionSnippets": true,
-    "diffEditor.ignoreTrimWhitespace": true,
-    "ada.displayMethodAncestryOnNavigation": "always",
-    "cloudcode.duetAI.project": "total-media-421501",
-    "clangd.path": "/home/peterhutkins/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/19.1.2/clangd_19.1.2/bin/clangd",
-    "C_Cpp.codeAnalysis.clangTidy.config": "{Checks: '-*,readability-identifier-naming', CheckOptions: [{key: 'readability-identifier-naming.FunctionCase', value: 'CamelCase'}]}",
-    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
-    "C_Cpp.intelliSenseEngine": "disabled",
-    "auxon.tooldir": "/opt/modality/bin",
-    "github.copilot.editor.enableAutoCompletions": true,
-    "workbench.colorCustomizations": {
-        "tab.activeBackground": "#ff0000"
-    },
-    "git.autoRepositoryDetection": false,
-    "scm.workingSets.default": "empty",
-    "[python]": {
-        "diffEditor.ignoreTrimWhitespace": true
-    },
-    "ada.projectFile": "taskmaster.gpr",
-    "[cue]": {
-        "editor.defaultFormatter": "trunk.io"
-    },
-    "git.mergeEditor": true,
-    "editor.detectIndentation": false,
-    "editor.indentSize": "tabSize",
-    "terminal.integrated.enableMultiLinePasteWarning": "never",
-    "terminal.integrated.profiles.linux": {
+    "bazel.enableCodeLens": true,
+    /***********************************************************************
+     * tmux                                                                *
+     ***********************************************************************/
+     "terminal.integrated.profiles.linux": {
         "tmux-shell": {
             "path": "tmux",
             "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"],
-        },
+        }
     },
     "terminal.integrated.defaultProfile.linux": "tmux-shell",
     "terminal.integrated.automationProfile.linux": {
-        "path": "bash",
+        "path": "bash"
     },
-    "workbench.editor.enablePreviewFromCodeNavigation": true,
-    "trunk.numJobs": 1,
-    "debug.onTaskErrors": "abort",
+    /***********************************************************************
+     * Github Copilot                                                      *
+     ***********************************************************************/
+    "github.copilot.editor.enableAutoCompletions": true,
     "github.copilot.chat.generateTests.codeLens": true,
-    "C_Cpp.doxygen.generatedStyle": "/**",
-    "clangd.checkUpdates": false,
-    "files.autoSave": "afterDelay",
-    "editor.formatOnSave": true,
-    "workbench.editor.highlightModifiedTabs": true,
-    "python.terminal.shellIntegration.enabled": true,
-    "debugpy.showPythonInlineValues": true,
-    "terminal.integrated.enableImages": true,
-    "testMate.cpp.test.executables": "bazel-bin/glyd/embedded/**/*{test,Test,TEST,gtest}*",
-    "testMate.cpp.discovery.strictPattern": true,
-    "githubPullRequests.queries": [
-        {
-            "label": "Waiting For My Review",
-            "query": "repo:${owner}/${repository} is:open review-requested:${user}"
-        },
-        {
-            "label": "Assigned To Me",
-            "query": "repo:${owner}/${repository} is:open assignee:${user}"
-        },
-        {
-            "label": "Created By Me",
-            "query": "repo:${owner}/${repository} is:open author:${user}"
-        }
-    ],
     "github.copilot.chat.editor.temporalContext.enabled": true,
     "github.copilot.nextEditSuggestions.enabled": true,
-    "githubPullRequests.pullBranch": "never",
-    "python.terminal.activateEnvInCurrentTerminal": true,
-    "python.venvPath": "${workspaceFolder}/.venv",
-    "bazel.enableCodeLens": true,
     "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
         "markdown": false,
         "scminput": false
-    },
-    "editor.multiCursorModifier": "ctrlCmd",
-
+    }
 }
