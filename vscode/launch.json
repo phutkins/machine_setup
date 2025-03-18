@@ -1,0 +1,543 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "description": "Copy and paste this file to .vscode/launch.json as a starting point for your launch.json file",
+    "version": "0.3.0",
+    "configurations": [
+        {
+            "name": "Debug test_codegen",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/glyd/embedded/common/canmgr/tests/test_codegen.py",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug agent_tasks gtest.tsan",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/embedded/eaf/agent_tasks/gtest/gtest.tsan",
+            "args": [],
+            "stopOnEntry": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug ATP PipelineTest",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/examples/eaf/atp_pipeline_test",
+            "args": [],
+            "stopOnEntry": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug ATP PipelineTest.PropulsionBrakeLimitTest",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/examples/eaf/pipeline_test",
+            "args": [
+                "--gtest_filter=PipelineTest.PropulsionBrakeLimitTest"
+            ],
+            "stopOnEntry": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "demo-v0 debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bazel-bin/glyd/embedded/eaf/tools/demo-v0/main.bin",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "environment": [
+                {
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/bazel-bin/glyd/embedded/eaf/tools/demo-v0/main.bin.runfiles/rules_qt~~aqt_install~qt_linux_x86_64//plugins"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Bazel build demo-v0",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "targetArchitecture": "x86_64"
+        },
+        {
+            "name": "demo-v1 debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bazel-bin/glyd/embedded/eaf/tools/demo-v1/main.bin",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "environment": [
+                {
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/bazel-bin/glyd/embedded/eaf/tools/demo-v1/main.bin.runfiles/rules_qt~~aqt_install~qt_linux_x86_64/plugins"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "Bazel build demo-v1",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "targetArchitecture": "x86_64"
+        },
+        {
+            "name": "Debug B2 CANHUB",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/embedded/variants/canhub/canhub.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/embedded/soc/s32k344/svd/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug B2 Codegen",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/glyd/embedded/common/canmgr/codegen/codegen.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--target",
+                "freertos",
+                "--can-config",
+                "${workspaceFolder}/glyd/embedded/common/canmgr/tests/test_configs/test_can_config.yaml",
+                "--system-config",
+                "${workspaceFolder}/glyd/embedded/common/canmgr/tests/test_configs/test_system_config.yaml",
+                // "--show", "reads_signals"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug ESTOP Codegen",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "codegen.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--target",
+                "freertos",
+                "--config",
+                "${workspaceFolder}/glyd/asil/estop/can_config.yaml"
+            ],
+            "cwd": "${workspaceFolder}/glyd/asil/common/canmgr"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach nodejs_binary",
+            "internalConsoleOptions": "neverOpen",
+            "resolveSourceMapLocations": null
+        },
+        {
+            "name": "Debug ATP",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/atp/atp.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug CANHUB",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/canhub/canhub.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug ESTOP",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/estop/estop.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "rttConfig": {
+                "enabled": false,
+                "address": "auto",
+                "decoders": [
+                    {
+                        "label": "SEGGER trace",
+                        "port": 1,
+                        "type": "binary",
+                        "noprompt": true,
+                        "logfile": ""
+                    }
+                ]
+            },
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug VMC",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/vmc/vmc.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug ATPv2",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/atpv2/atpv2.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "name": "Debug VMCv2",
+            "cwd": "${workspaceFolder}/bazel-glyd",
+            "executable": "${workspaceFolder}/bazel-bin/glyd/asil/vmcv2/vmcv2.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "serverpath": "${workspaceFolder}/scripts/bin/JLinkGDBServerCLExe",
+            "device": "S32K344",
+            "interface": "SWD",
+            "speed": "4000",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "svdFile": "${workspaceFolder}/glyd/asil/boards/S32K344/SVD/S32K344_M7.svd",
+            "armToolchainPath": "${workspaceFolder}/bazel-glyd/external/_main~nxp_gcc~nxp_gcc/bin",
+            "gdbPath": "${workspaceFolder}/scripts/bin/arm-none-eabi-gdb"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Network Resiliency",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/network_resiliency.yaml",
+                "--variation",
+                "republish_trip"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug live_scenario_b1 multi_ego_recovery_1_to_5",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/live_scenario_b1.yaml",
+                "--variation",
+                "multi_ego_recovery_1_to_5"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug control_performance scenario",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/control_performance.yaml",
+                "--variation",
+                "robustness"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug default scenario",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/default.yaml",
+                "--variation",
+                "simple_2_mixing_zone"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug mz_routing resume_after_trunk_shutdown",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/mz_routing.yaml",
+                "--variation",
+                "resume_after_trunk_shutdown"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug mz_routing can_receive_vehicles",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/mz_routing.yaml",
+                "--variation",
+                "can_receive_vehicles"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug site b1_passenger_trips",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/site.yaml",
+                "--variation",
+                "b1_passenger_trips"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug SA1 SA1_D2_uwb_v2v_comms_dropped_5to1",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/requirements/separation_assurance/SA1.yaml",
+                "--variation",
+                "SA1_D2_uwb_v2v_comms_dropped_5to1"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Central Monitor Test",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/site/dispatch/central/central_test.dbg",
+            "args": [],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Semanantic Map Test",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/onboard/map/map_test.dbg",
+            "args": [],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Common Test",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/onboard/common/test.dbg",
+            "args": [],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug keep_buffer_spot Test",
+            "sourceMap": {
+                "/proc/self/cwd": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}/bazel-bin/glyd/simulation/executables/scenario_run.dbg",
+            "args": [
+                "glyd/simulation/scenarios/network_resiliency.yaml",
+                "--variation",
+                "keep_buffer_spot"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Bazel Debug"
+        },
+        {
+            "name": "glyd_simulation_gui",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/glyd_simulation_gui",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug GUI",
+            "program": "${workspaceFolder}/build/glyd_simulation_gui",
+            "args": [],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Make Debug"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Lanelet2",
+            "program": "${workspaceFolder}/build/lanelet2_to_rbuf_lanegraph",
+            "args": [
+                "glyd/onboard/map/data/gdf_tests/gdf_dog_bone.osm",
+                "glyd/onboard/map/data/gdf_tests/gdf_dog_bone5.json",
+                "--option",
+                "b1v2",
+                "--speed",
+                "14",
+                "--no-speed-limits",
+                "--smooth",
+                "--node-yaw-deg",
+                " 1.0",
+                "--uwb-poles-file",
+                "glyd/onboard/map/data/gdf_dev_20240703_uwb_towers.json"
+            ],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Make Debug"
+        }
+    ]
+}
