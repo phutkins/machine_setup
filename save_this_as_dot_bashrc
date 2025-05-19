@@ -1,5 +1,5 @@
 
-export PATH=$PATH:/opt/modality/bin
+#export PATH=$PATH:/opt/modality/bin
 
 # For cueimports, needed by VS Code "cue" plugin
 export PATH=/home/peterhutkins/.bin:$PATH
